@@ -1,17 +1,17 @@
 data "azurerm_resource_group" "rg-funapp" {
-  name     = "function-app"
+  name     = "${var.resource_group_name}"
 }
 
 resource "azurerm_storage_account" "funStore" {
-  name                     = "linuxfunctionappsa"
+  name                     = "${var.storage_account_name}"
   resource_group_name      = data.azurerm_resource_group.rg_funapp.name
-  location                 = data.zurerm_resource_group.rg_funapp.location
+  location                 = data.azurerm_resource_group.rg_funapp.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
 }
 
 resource "azurerm_service_plan" "funService" {
-  name                = "function-app-service-plan"
+  name                = "${var.service_plan_name}"
   resource_group_name = data.azurerm_resource_group.rg_funapp.name
   location            = data.azurerm_resource_group.rg_funapp.location
   os_type             = "Linux"
@@ -19,7 +19,7 @@ resource "azurerm_service_plan" "funService" {
 }
 
 resource "azurerm_linux_function_app" "funapp" {
-  name                = "funapp-linux-function-app"
+  name                = "${var.function_app_name}"
   resource_group_name = data.azurerm_resource_group.rg-funapp.name
   location            = data.azurerm_resource_group.rg_funapp.location
 
@@ -34,7 +34,7 @@ resource "azurerm_linux_function_app" "funapp" {
 
     # Use this block to define your application settings
     app_settings = {
-      "FUNCTIONS_WORKER_RUNTIME"       = "dotnet" # Or "python", "node", etc.
+      "FUNCTIONS_WORKER_RUNTIME"       = "node" # Or "python", "dotnet", etc.
       "AzureWebJobsStorage"            = azurerm_storage_account.funStore.primary_connection_string
     }
    }
