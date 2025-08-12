@@ -36,6 +36,8 @@ resource "azurerm_linux_function_app" "funapp" {
     app_settings = {
       "FUNCTIONS_WORKER_RUNTIME"       = "node" # Or "python", "dotnet", etc.
       "AzureWebJobsStorage"            = azurerm_storage_account.funStore.primary_connection_string
+      "STORAGE_ACCOUNT_NAME" = azurerm_storage_account.funStore.name
+      "AZURE_STORAGE_ACCOUNT_ACCESS_KEY" = azurerm_storage_account.funStore.primary_access_key
     }
    }
 }
