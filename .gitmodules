@@ -1,0 +1,3 @@
+[submodule "libs/Azure-Url-Shortener"]
+	path = libs/Azure-Url-Shortener
+	url = https://github.com/Ket27/url-shortener.git
